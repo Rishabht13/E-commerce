@@ -5,11 +5,15 @@ import { useEffect, useState } from "react";
 import "./CheckoutPage.css";
 import "./checkout-header.css";
 export function CheckoutPage({ cart }) {
+  const [paymentSummary, setPaymentSummary] = useState(null);
   const [deliveryOptions, setDeliveryOptions] = useState([]);
   useEffect(() => {
     axios.get("/api/delivery-options?expand=estimatedDeliveryTime").then((response) => {
       setDeliveryOptions(response.data);
     });
+      axios.get("/api/payment-summary").then((response) => {
+      setPaymentSummary(response.data);
+      })
   }, []);
   return (
     <>
@@ -102,33 +106,38 @@ export function CheckoutPage({ cart }) {
 
           <div className="payment-summary">
             <div className="payment-summary-title">Payment Summary</div>
-
-            <div className="payment-summary-row">
-              <div>Items (3):</div>
-              <div className="payment-summary-money">$42.75</div>
+            {paymentSummary && (
+              <>
+              <div className="payment-summary-row">
+              <div>Items ({paymentSummary.totalItems}):</div>
+              <div className="payment-summary-money">${(paymentSummary.productCostCents / 100).toFixed(2)}</div>
             </div>
 
             <div className="payment-summary-row">
               <div>Shipping &amp; handling:</div>
-              <div className="payment-summary-money">$4.99</div>
+              <div className="payment-summary-money">${(paymentSummary.shippingCostCents / 100).toFixed(2)}</div>
             </div>
 
             <div className="payment-summary-row subtotal-row">
               <div>Total before tax:</div>
-              <div className="payment-summary-money">$47.74</div>
+              <div className="payment-summary-money">${(paymentSummary.totalCostBeforeTaxCents / 100).toFixed(2)}</div>
             </div>
 
             <div className="payment-summary-row">
               <div>Estimated tax (10%):</div>
-              <div className="payment-summary-money">$4.77</div>
+              <div className="payment-summary-money">${(paymentSummary.taxCents / 100).toFixed(2)}
+            </div>
             </div>
 
             <div className="payment-summary-row total-row">
               <div>Order total:</div>
-              <div className="payment-summary-money">$52.51</div>
+              <div className="payment-summary-money">${(paymentSummary.totalCostCents / 100).toFixed(2)}</div>
             </div>
 
             <button className="place-order-button button-primary">Place your order</button>
+              </>
+            )}
+            
           </div>
         </div>
       </div>
