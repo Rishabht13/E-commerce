@@ -51,7 +51,7 @@ export function OrdersPage({ cart }) {
         <div className="orders-grid">
           {orders.map((order)=>{
             return (
-              <>
+              
                <div key={order.id}
                className="order-container">
             <div className="order-header">
@@ -101,7 +101,6 @@ export function OrdersPage({ cart }) {
                 )})}
             </div>
           </div>
-              </>
             )
           })}
         </div>
