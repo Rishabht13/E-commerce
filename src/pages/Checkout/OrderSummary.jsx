@@ -1,6 +1,6 @@
 import { DeliveryOptions } from "./DeliveryOptions.jsx";
 import dayjs from "dayjs";
-export function OrderSummary({ deliveryOptions, cart }) {
+export function OrderSummary({ deliveryOptions, cart, loadCart }) {
     return(
          <div className="order-summary">
             {deliveryOptions.length > 0 && cart.map((cartItem) => {
@@ -29,7 +29,7 @@ export function OrderSummary({ deliveryOptions, cart }) {
                         <span className="delete-quantity-link link-primary">Delete</span>
                       </div>
                     </div>
-                    <DeliveryOptions deliveryOptions={deliveryOptions} cartItem={cartItem} />
+                    <DeliveryOptions deliveryOptions={deliveryOptions} cartItem={cartItem} loadCart={loadCart} />
                   </div>
                 </div>
               );
