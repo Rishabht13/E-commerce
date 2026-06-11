@@ -1,6 +1,7 @@
 
 import { it, expect, describe, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
+import {MemoryRouter} from 'react-router';
 import { Product } from './Product';
 
 describe('Product Component', ()=>{
@@ -18,10 +19,14 @@ describe('Product Component', ()=>{
   };
       const loadCart = vi.fn();
 
-      render(<Product product={product} loadCart={loadCart}  />);
+      render(
+        <MemoryRouter>
+          <Product product={product} loadCart={loadCart} />
+        </MemoryRouter>
+      );
 
       expect(screen.getByText("Black and Gray Athletic Cotton Socks - 6 Pairs")).toBeInTheDocument();
-      
+
       expect(screen.getByText("$10.90")).toBeInTheDocument();
     })
 })
